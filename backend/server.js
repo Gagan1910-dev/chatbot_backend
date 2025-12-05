@@ -4,11 +4,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';   // <-- ADD THIS
 
-// Load environment variables FIRST, before importing routes
+// Load environment variables FIRST
 dotenv.config();
 
-// Import routes (after dotenv.config)
+// Import routes
 import authRoutes from './routes/authRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import documentRoutes from './routes/documentRoutes.js';
@@ -19,6 +20,13 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// ⭐⭐⭐ ADD THIS BLOCK RIGHT HERE — Uploads Folder Fix ⭐⭐⭐
+const uploadPath = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+  console.log("📁 Uploads folder created automatically");
+}
 
 // Middleware
 app.use(cors());
@@ -53,4 +61,3 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/chatbot')
 });
 
 export default app;
-
