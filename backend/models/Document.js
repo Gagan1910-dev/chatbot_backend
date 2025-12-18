@@ -28,10 +28,10 @@ const documentSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: String,
-    enum: ['pending', 'processing', 'completed', 'failed'],
-    default: 'pending',
-  },
+  type: String,
+  enum: ['uploaded', 'pending', 'processing', 'completed', 'failed'],
+  default: 'uploaded',
+},
   chunkCount: {
     type: Number,
     default: 0,
@@ -43,6 +43,7 @@ const documentSchema = new mongoose.Schema({
 });
 
 export default mongoose.model('Document', documentSchema);
+
 
 
 
